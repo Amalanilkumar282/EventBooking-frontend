@@ -1,4 +1,4 @@
-# EventBooking API — Frontend Integration Guide
+# EventBooking API ï¿½ Frontend Integration Guide
 
 This document describes all public API endpoints, request/response shapes, authentication, headers, query parameters and error formats needed by the front-end (Angular) to integrate with the backend.
 
@@ -391,12 +391,12 @@ Appendix: Example curl calls
 
 Login
 ```bash
-curl -X POST "https://localhost:5001/api/auth/login" -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"pass"}'
+curl -X POST "https://localhost:7069/api/auth/login" -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"pass"}'
 ```
 
 Get events (authorized)
 ```bash
-curl -H "Authorization: Bearer ${TOKEN}" "https://localhost:5001/api/events?page=1&pageSize=20"
+curl -H "Authorization: Bearer ${TOKEN}" "https://localhost:7069/api/events?page=1&pageSize=20"
 ```
 
 Create booking (authorized)

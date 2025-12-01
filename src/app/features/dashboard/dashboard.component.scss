@@ -1,0 +1,235 @@
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #718096;
+    font-size: 1rem;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+
+  p {
+    margin-top: 1rem;
+    color: #718096;
+  }
+}
+
+.spinner-large {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  &.stat-events {
+    border-left-color: #667eea;
+    
+    .stat-icon {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+  }
+
+  &.stat-customers {
+    border-left-color: #48bb78;
+    
+    .stat-icon {
+      background: rgba(72, 187, 120, 0.1);
+      color: #48bb78;
+    }
+  }
+
+  &.stat-bookings {
+    border-left-color: #ed8936;
+    
+    .stat-icon {
+      background: rgba(237, 137, 54, 0.1);
+      color: #ed8936;
+    }
+  }
+
+  &.stat-active {
+    border-left-color: #9f7aea;
+    
+    .stat-icon {
+      background: rgba(159, 122, 234, 0.1);
+      color: #9f7aea;
+    }
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .stat-content {
+    h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #718096;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0;
+    }
+  }
+
+  .stat-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #667eea;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #5a67d8;
+    }
+  }
+}
+
+.quick-actions {
+  margin-top: 3rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.action-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+    .action-icon {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+  }
+
+  .action-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #f7fafc;
+    color: #667eea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #718096;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
