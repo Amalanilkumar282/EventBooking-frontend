@@ -1,0 +1,77 @@
+<div class="customers-list-container">
+  <div class="page-header">
+    <div>
+      <h1>Customers</h1>
+      <p>View all registered customers</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading customers...</p>
+    </div>
+  } @else if (customers().length === 0) {
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+      <h3>No customers found</h3>
+      <p>No registered customers yet</p>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table class="customers-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Registered</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (customer of customers(); track customer.id) {
+            <tr>
+              <td>
+                <div class="customer-name">
+                  <div class="avatar">
+                    {{ customer.firstName.charAt(0) }}{{ customer.lastName.charAt(0) }}
+                  </div>
+                  <span>{{ customer.firstName }} {{ customer.lastName }}</span>
+                </div>
+              </td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.phoneNumber || '-' }}</td>
+              <td>{{ formatDate(customer.createdAt) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPages > 1) {
+      <div class="pagination">
+        <button 
+          (click)="onPageChange(currentPage() - 1)"
+          [disabled]="currentPage() === 1"
+          class="btn btn-secondary btn-sm"
+        >
+          Previous
+        </button>
+        
+        <span class="page-info">
+          Page {{ currentPage() }} of {{ totalPages }}
+        </span>
+        
+        <button 
+          (click)="onPageChange(currentPage() + 1)"
+          [disabled]="currentPage() === totalPages"
+          class="btn btn-secondary btn-sm"
+        >
+          Next
+        </button>
+      </div>
+    }
+  }
+</div>

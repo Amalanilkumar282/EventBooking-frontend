@@ -1,0 +1,61 @@
+<div class="ticket-types-container">
+  <div class="page-header">
+    <div>
+      <h1>Ticket Types</h1>
+      <p>Manage ticket types for events</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading ticket types...</p>
+    </div>
+  } @else if (ticketTypes().length === 0) {
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+      </svg>
+      <h3>No ticket types found</h3>
+      <p>No ticket types have been created yet</p>
+    </div>
+  } @else {
+    <div class="ticket-types-grid">
+      @for (ticketType of ticketTypes(); track ticketType.id) {
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <h3>{{ ticketType.name }}</h3>
+            <span class="ticket-status" [class.active]="ticketType.isActive">
+              {{ ticketType.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+          
+          @if (ticketType.description) {
+            <p class="ticket-description">{{ ticketType.description }}</p>
+          }
+          
+          <div class="ticket-details">
+            <div class="detail-row">
+              <span class="label">Price:</span>
+              <span class="value price">${{ ticketType.price.toFixed(2) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Quantity:</span>
+              <span class="value">{{ ticketType.quantity }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Event ID:</span>
+              <span class="value event-id">{{ ticketType.eventId.substring(0, 8) }}...</span>
+            </div>
+          </div>
+          
+          <div class="ticket-actions">
+            <button (click)="deleteTicketType(ticketType.id)" class="btn btn-danger btn-sm">
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

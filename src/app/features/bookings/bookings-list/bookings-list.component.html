@@ -1,0 +1,90 @@
+<div class="bookings-list-container">
+  <div class="page-header">
+    <div>
+      <h1>Bookings</h1>
+      <p>Manage all event bookings</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading bookings...</p>
+    </div>
+  } @else if (bookings().length === 0) {
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+      </svg>
+      <h3>No bookings found</h3>
+      <p>No bookings have been made yet</p>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Event ID</th>
+            <th>Customer ID</th>
+            <th>Seats</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (booking of bookings(); track booking.id) {
+            <tr>
+              <td>
+                <span class="booking-id">{{ booking.id.substring(0, 8) }}...</span>
+              </td>
+              <td>{{ booking.eventId.substring(0, 8) }}...</td>
+              <td>{{ booking.customerId.substring(0, 8) }}...</td>
+              <td>
+                <span class="seats-badge">{{ booking.seats }}</span>
+              </td>
+              <td>
+                <span class="status-badge" [class]="getStatusClass(booking.status)">
+                  {{ booking.status }}
+                </span>
+              </td>
+              <td>{{ formatDate(booking.createdAt) }}</td>
+              <td>
+                <div class="actions">
+                  <button (click)="deleteBooking(booking.id)" class="btn btn-danger btn-sm">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPages > 1) {
+      <div class="pagination">
+        <button 
+          (click)="onPageChange(currentPage() - 1)"
+          [disabled]="currentPage() === 1"
+          class="btn btn-secondary btn-sm"
+        >
+          Previous
+        </button>
+        
+        <span class="page-info">
+          Page {{ currentPage() }} of {{ totalPages }}
+        </span>
+        
+        <button 
+          (click)="onPageChange(currentPage() + 1)"
+          [disabled]="currentPage() === totalPages"
+          class="btn btn-secondary btn-sm"
+        >
+          Next
+        </button>
+      </div>
+    }
+  }
+</div>
