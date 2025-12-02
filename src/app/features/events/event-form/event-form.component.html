@@ -1,0 +1,148 @@
+<div class="form-container">
+  <div class="form-header">
+    <div>
+      <h1>{{ isEditMode() ? 'Edit Event' : 'Create Event' }}</h1>
+      <p>{{ isEditMode() ? 'Update event information' : 'Add a new event to the system' }}</p>
+    </div>
+    <a routerLink="/events" class="btn btn-secondary">
+      Cancel
+    </a>
+  </div>
+
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+    @if (errorMessage()) {
+      <div class="alert alert-error">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <div class="form-card">
+      <h2>Event Details</h2>
+      
+      <div class="form-group">
+        <label for="name">Event Name *</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name"
+          placeholder="Enter event name"
+          [class.invalid]="eventForm.get('name')?.touched && eventForm.get('name')?.invalid"
+        />
+        @if (getFieldError('name')) {
+          <span class="error-message">{{ getFieldError('name') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          formControlName="description"
+          placeholder="Enter event description"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="venue">Venue</label>
+        <input 
+          type="text" 
+          id="venue" 
+          formControlName="venue"
+          placeholder="Enter venue location"
+        />
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Date & Time</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate">Start Date & Time *</label>
+          <input 
+            type="datetime-local" 
+            id="startDate" 
+            formControlName="startDate"
+            [class.invalid]="eventForm.get('startDate')?.touched && eventForm.get('startDate')?.invalid"
+          />
+          @if (getFieldError('startDate')) {
+            <span class="error-message">{{ getFieldError('startDate') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">End Date & Time</label>
+          <input 
+            type="datetime-local" 
+            id="endDate" 
+            formControlName="endDate"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Capacity & Status</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="capacity">Capacity *</label>
+          <input 
+            type="number" 
+            id="capacity" 
+            formControlName="capacity"
+            placeholder="Enter maximum capacity"
+            min="1"
+            [class.invalid]="eventForm.get('capacity')?.touched && eventForm.get('capacity')?.invalid"
+          />
+          @if (getFieldError('capacity')) {
+            <span class="error-message">{{ getFieldError('capacity') }}</span>
+          }
+        </div>
+
+        @if (isEditMode()) {
+          <div class="form-group">
+            <label for="isActive">Status</label>
+            <div class="toggle-group">
+              <label class="toggle-option">
+                <input 
+                  type="radio" 
+                  [value]="true" 
+                  formControlName="isActive"
+                />
+                <span>Active</span>
+              </label>
+              <label class="toggle-option">
+                <input 
+                  type="radio" 
+                  [value]="false" 
+                  formControlName="isActive"
+                />
+                <span>Inactive</span>
+              </label>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" routerLink="/events" class="btn btn-secondary">
+        Cancel
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          {{ isEditMode() ? 'Updating...' : 'Creating...' }}
+        } @else {
+          {{ isEditMode() ? 'Update Event' : 'Create Event' }}
+        }
+      </button>
+    </div>
+  </form>
+</div>
