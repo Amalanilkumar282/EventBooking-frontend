@@ -8,7 +8,7 @@ export interface RegisterDto {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
   password: string;
 }
 
@@ -25,7 +25,7 @@ export interface CustomerDto {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
   createdAt: string;
 }
 
@@ -33,45 +33,47 @@ export interface CreateCustomerDto {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
   password: string;
 }
 
 export interface UpdateCustomerDto {
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
 }
 
 // Event Models
 export interface EventDto {
   id: string;
   name: string;
-  description?: string;
-  venue?: string;
+  description: string;
+  venue: string;
   startDate: string;
-  endDate?: string;
+  endDate: string;
   capacity: number;
   isActive: boolean;
+  createdAt: string;
 }
 
 export interface CreateEventDto {
   name: string;
-  description?: string;
-  venue?: string;
+  description: string;
+  venue: string;
   startDate: string;
-  endDate?: string;
+  endDate: string;
   capacity: number;
 }
 
 export interface UpdateEventDto {
-  name?: string;
-  description?: string;
-  venue?: string;
-  startDate?: string;
-  endDate?: string;
-  capacity?: number;
-  isActive?: boolean;
+  name: string;
+  description: string;
+  venue: string;
+  startDate: string;
+  endDate: string;
+  capacity: number;
+  isActive: boolean;
 }
 
 // Ticket Type Models
@@ -79,26 +81,27 @@ export interface TicketTypeDto {
   id: string;
   eventId: string;
   name: string;
-  description?: string;
+  description: string;
   price: number;
   quantity: number;
+  sold: number;
   isActive: boolean;
 }
 
 export interface CreateTicketTypeDto {
   eventId: string;
   name: string;
-  description?: string;
+  description: string;
   price: number;
   quantity: number;
 }
 
 export interface UpdateTicketTypeDto {
-  name?: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  isActive?: boolean;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  isActive: boolean;
 }
 
 // Booking Models
@@ -106,8 +109,9 @@ export interface BookingDto {
   id: string;
   eventId: string;
   customerId: string;
-  ticketTypeId?: string;
+  ticketTypeId: string;
   seats: number;
+  totalPrice: number;
   status: string;
   createdAt: string;
 }
@@ -115,21 +119,13 @@ export interface BookingDto {
 export interface CreateBookingDto {
   eventId: string;
   customerId: string;
-  ticketTypeId?: string;
+  ticketTypeId: string;
   seats: number;
 }
 
 export interface UpdateBookingDto {
-  seats?: number;
-  status?: string;
-}
-
-// Pagination Models
-export interface PagedResponse<T> {
-  page: number;
-  pageSize: number;
-  total: number;
-  items: T[];
+  seats: number;
+  status: string;
 }
 
 // Error Models

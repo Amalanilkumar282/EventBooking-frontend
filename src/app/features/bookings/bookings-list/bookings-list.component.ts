@@ -27,8 +27,8 @@ export class BookingsListComponent implements OnInit {
     this.isLoading.set(true);
     this.bookingsService.getBookings(this.currentPage(), this.pageSize()).subscribe({
       next: (response) => {
-        this.bookings.set(response.items);
-        this.totalItems.set(response.total);
+        this.bookings.set(response);
+        this.totalItems.set(response.length);
         this.isLoading.set(false);
       },
       error: () => {

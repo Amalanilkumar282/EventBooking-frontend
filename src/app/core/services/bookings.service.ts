@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { BookingDto, CreateBookingDto, UpdateBookingDto, PagedResponse } from '../../models';
+import { BookingDto, CreateBookingDto, UpdateBookingDto } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,12 @@ export class BookingsService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/bookings`;
 
-  getBookings(page: number = 1, pageSize: number = 20): Observable<PagedResponse<BookingDto>> {
+  getBookings(page: number = 1, pageSize: number = 20): Observable<BookingDto[]> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
     
-    return this.http.get<PagedResponse<BookingDto>>(this.apiUrl, { params });
+    return this.http.get<BookingDto[]>(this.apiUrl, { params });
   }
 
   getBooking(id: string): Observable<BookingDto> {

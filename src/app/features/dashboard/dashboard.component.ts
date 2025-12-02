@@ -44,15 +44,15 @@ export class DashboardComponent implements OnInit {
     this.isLoading.set(true);
 
     Promise.all([
-      this.eventsService.getEvents(1, 1).toPromise(),
-      this.customersService.getCustomers(1, 1).toPromise(),
-      this.bookingsService.getBookings(1, 1).toPromise()
+      this.eventsService.getEvents(1, 100).toPromise(),
+      this.customersService.getCustomers(1, 100).toPromise(),
+      this.bookingsService.getBookings(1, 100).toPromise()
     ]).then(([events, customers, bookings]) => {
       this.stats.set({
-        totalEvents: events?.total || 0,
-        totalCustomers: customers?.total || 0,
-        totalBookings: bookings?.total || 0,
-        activeEvents: events?.total || 0 // This would need a separate endpoint for accurate count
+        totalEvents: events?.length || 0,
+        totalCustomers: customers?.length || 0,
+        totalBookings: bookings?.length || 0,
+        activeEvents: events?.filter(e => e.isActive).length || 0
       });
       this.isLoading.set(false);
     }).catch(() => {

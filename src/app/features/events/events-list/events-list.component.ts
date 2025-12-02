@@ -34,8 +34,8 @@ export class EventsListComponent implements OnInit {
       this.searchTerm() || undefined
     ).subscribe({
       next: (response) => {
-        this.events.set(response.items);
-        this.totalItems.set(response.total);
+        this.events.set(response);
+        this.totalItems.set(response.length);
         this.isLoading.set(false);
       },
       error: () => {

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { EventDto, CreateEventDto, UpdateEventDto, PagedResponse } from '../../models';
+import { EventDto, CreateEventDto, UpdateEventDto } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class EventsService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/events`;
 
-  getEvents(page: number = 1, pageSize: number = 20, search?: string): Observable<PagedResponse<EventDto>> {
+  getEvents(page: number = 1, pageSize: number = 20, search?: string): Observable<EventDto[]> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
@@ -20,7 +20,7 @@ export class EventsService {
       params = params.set('search', search);
     }
     
-    return this.http.get<PagedResponse<EventDto>>(this.apiUrl, { params });
+    return this.http.get<EventDto[]>(this.apiUrl, { params });
   }
 
   getEvent(id: string): Observable<EventDto> {

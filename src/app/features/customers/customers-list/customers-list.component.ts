@@ -27,8 +27,8 @@ export class CustomersListComponent implements OnInit {
     this.isLoading.set(true);
     this.customersService.getCustomers(this.currentPage(), this.pageSize()).subscribe({
       next: (response) => {
-        this.customers.set(response.items);
-        this.totalItems.set(response.total);
+        this.customers.set(response);
+        this.totalItems.set(response.length);
         this.isLoading.set(false);
       },
       error: () => {
