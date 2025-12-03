@@ -1,12 +1,13 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { CustomersService } from '../../../core/services/customers.service';
 import { CustomerDto } from '../../../models';
 
 @Component({
   selector: 'app-customers-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './customers-list.component.html',
   styleUrl: './customers-list.component.scss'
 })

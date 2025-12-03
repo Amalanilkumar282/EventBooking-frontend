@@ -22,7 +22,7 @@
   } @else {
     <div class="ticket-types-grid">
       @for (ticketType of ticketTypes(); track ticketType.id) {
-        <div class="ticket-card">
+        <div class="ticket-card" [routerLink]="['/ticket-types', ticketType.id]">
           <div class="ticket-header">
             <h3>{{ ticketType.name }}</h3>
             <span class="ticket-status" [class.active]="ticketType.isActive">
@@ -50,7 +50,7 @@
           </div>
           
           <div class="ticket-actions">
-            <button (click)="deleteTicketType(ticketType.id)" class="btn btn-danger btn-sm">
+            <button (click)="deleteTicketType(ticketType.id); $event.stopPropagation()" class="btn btn-danger btn-sm">
               Delete
             </button>
           </div>

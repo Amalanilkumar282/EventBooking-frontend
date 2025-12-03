@@ -32,7 +32,7 @@
         </thead>
         <tbody>
           @for (customer of customers(); track customer.id) {
-            <tr>
+            <tr [routerLink]="['/customers', customer.id]" class="clickable-row">
               <td>
                 <div class="customer-name">
                   <div class="avatar">

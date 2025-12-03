@@ -1,53 +1,56 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BookingsService } from '../../../core/services/bookings.service';
 import { BookingDto } from '../../../models';
 
 @Component({
-  selector: 'app-bookings-list',
+  selector: 'app-booking-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './bookings-list.component.html',
-  styleUrl: './bookings-list.component.scss'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './booking-detail.component.html',
+  styleUrl: './booking-detail.component.scss'
 })
-export class BookingsListComponent implements OnInit {
+export class BookingDetailComponent implements OnInit {
   private readonly bookingsService = inject(BookingsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  bookings = signal<BookingDto[]>([]);
+  booking = signal<BookingDto | null>(null);
   isLoading = signal(true);
-  currentPage = signal(1);
-  pageSize = signal(20);
-  totalItems = signal(0);
+  bookingId = signal<string>('');
 
   ngOnInit(): void {
-    this.loadBookings();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.bookingId.set(id);
+      this.loadBooking(id);
+    } else {
+      this.router.navigate(['/bookings']);
+    }
   }
 
-  loadBookings(): void {
+  loadBooking(id: string): void {
     this.isLoading.set(true);
-    this.bookingsService.getBookings(this.currentPage(), this.pageSize()).subscribe({
+    this.bookingsService.getBooking(id).subscribe({
       next: (response) => {
-        this.bookings.set(response);
-        this.totalItems.set(response.length);
+        this.booking.set(response);
         this.isLoading.set(false);
       },
       error: () => {
         this.isLoading.set(false);
+        alert('Failed to load booking details');
+        this.router.navigate(['/bookings']);
       }
     });
   }
 
-  onPageChange(page: number): void {
-    this.currentPage.set(page);
-    this.loadBookings();
-  }
-
-  deleteBooking(id: string): void {
+  deleteBooking(): void {
     if (confirm('Are you sure you want to delete this booking?')) {
-      this.bookingsService.deleteBooking(id).subscribe({
+      this.bookingsService.deleteBooking(this.bookingId()).subscribe({
         next: () => {
-          this.loadBookings();
+          alert('Booking deleted successfully');
+          this.router.navigate(['/bookings']);
         },
         error: (error) => {
           alert('Failed to delete booking: ' + (error.error?.title || 'Unknown error'));
@@ -56,14 +59,10 @@ export class BookingsListComponent implements OnInit {
     }
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.totalItems() / this.pageSize());
-  }
-
   formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'short',
+      month: 'long',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
