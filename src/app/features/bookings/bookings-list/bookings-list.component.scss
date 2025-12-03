@@ -6,6 +6,9 @@
 
 .page-header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   h1 {
     font-size: 2rem;
@@ -17,6 +20,18 @@
   p {
     color: #718096;
     font-size: 1rem;
+  }
+}
+
+.page-actions {
+  display: flex;
+  gap: 0.5rem;
+
+  .btn, a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
   }
 }
 
@@ -100,6 +115,7 @@
     tr {
       border-bottom: 1px solid #e2e8f0;
       transition: background-color 0.2s ease;
+      cursor: pointer;
 
       &:hover {
         background: #f7fafc;

@@ -10,6 +10,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
+  closeMobileSidebar(): void {
+    try {
+      document.body.classList.remove('sidebar-open');
+    } catch (e) {
+      // safe fallback for server-side rendering or tests
+    }
+  }
   menuItems = [
     {
       label: 'Dashboard',

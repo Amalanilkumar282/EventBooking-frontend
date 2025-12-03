@@ -166,7 +166,7 @@ The application uses a professional color scheme:
 - HTTP interceptor for automatic token attachment
 - Auth guard for protected routes
 - Automatic logout on 401 responses
-- Secure token storage in localStorage
+ - Secure token storage in sessionStorage
 - Input validation on all forms
 
 ## 📱 Responsive Design

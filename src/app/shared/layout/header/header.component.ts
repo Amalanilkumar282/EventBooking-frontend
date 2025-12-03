@@ -17,6 +17,24 @@ export class HeaderComponent {
   currentUser = this.authService.currentUser$;
   showUserMenu = signal(false);
 
+  // Provide a callable function that also exposes an `emit()` method.
+  // This keeps compatibility with older compiled bundles that call `toggleMobileSidebar.emit()`
+  // while allowing templates to call `toggleMobileSidebar()` directly.
+  toggleMobileSidebar: any = null;
+
+  constructor() {
+    // initialize toggleMobileSidebar as a function and attach an `emit` alias
+    this.toggleMobileSidebar = () => {
+      try {
+        document.body.classList.toggle('sidebar-open');
+      } catch (e) {
+        // safe fallback for server-side rendering or tests
+      }
+    };
+    // alias emit to the same function for backwards compatibility
+    (this.toggleMobileSidebar as any).emit = this.toggleMobileSidebar;
+  }
+
   toggleUserMenu(): void {
     this.showUserMenu.set(!this.showUserMenu());
   }

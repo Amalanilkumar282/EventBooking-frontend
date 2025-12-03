@@ -4,6 +4,9 @@
       <h1>Bookings</h1>
       <p>Manage all event bookings</p>
     </div>
+    <div class="page-actions">
+      <button class="btn btn-primary" routerLink="/bookings/new">Create Booking</button>
+    </div>
   </div>
 
   @if (isLoading()) {
@@ -35,7 +38,7 @@
         </thead>
         <tbody>
           @for (booking of bookings(); track booking.id) {
-            <tr>
+            <tr [routerLink]="['/bookings', booking.id]" class="clickable-row">
               <td>
                 <span class="booking-id">{{ booking.id.substring(0, 8) }}...</span>
               </td>
@@ -52,7 +55,7 @@
               <td>{{ formatDate(booking.createdAt) }}</td>
               <td>
                 <div class="actions">
-                  <button (click)="deleteBooking(booking.id)" class="btn btn-danger btn-sm">
+                  <button (click)="deleteBooking(booking.id); $event.stopPropagation()" class="btn btn-danger btn-sm">
                     Delete
                   </button>
                 </div>

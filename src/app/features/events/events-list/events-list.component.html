@@ -41,7 +41,7 @@
   } @else {
     <div class="events-grid">
       @for (event of events() || []; track event.id) {
-        <div class="event-card">
+        <div class="event-card" [routerLink]="['/events', event.id]">
           <div class="event-header">
             <h3>{{ event.name }}</h3>
             <span class="event-status" [class.active]="event.isActive">
@@ -80,10 +80,10 @@
           </div>
           
           <div class="event-actions">
-            <a [routerLink]="['/events', event.id]" class="btn btn-secondary btn-sm">
+            <a [routerLink]="['/events', event.id, 'edit']" class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()">
               Edit
             </a>
-            <button (click)="deleteEvent(event.id)" class="btn btn-danger btn-sm">
+            <button (click)="deleteEvent(event.id); $event.stopPropagation()" class="btn btn-danger btn-sm">
               Delete
             </button>
           </div>

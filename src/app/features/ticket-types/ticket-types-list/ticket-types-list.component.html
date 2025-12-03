@@ -4,6 +4,9 @@
       <h1>Ticket Types</h1>
       <p>Manage ticket types for events</p>
     </div>
+    <div class="page-actions">
+      <button class="btn btn-primary" routerLink="/ticket-types/new">Create Ticket Type</button>
+    </div>
   </div>
 
   @if (isLoading()) {
@@ -22,7 +25,7 @@
   } @else {
     <div class="ticket-types-grid">
       @for (ticketType of ticketTypes(); track ticketType.id) {
-        <div class="ticket-card">
+        <div class="ticket-card" [routerLink]="['/ticket-types', ticketType.id]">
           <div class="ticket-header">
             <h3>{{ ticketType.name }}</h3>
             <span class="ticket-status" [class.active]="ticketType.isActive">
@@ -37,7 +40,7 @@
           <div class="ticket-details">
             <div class="detail-row">
               <span class="label">Price:</span>
-              <span class="value price">${{ ticketType.price.toFixed(2) }}</span>
+              <span class="value price">₹{{ ticketType.price.toFixed(2) }}</span>
             </div>
             <div class="detail-row">
               <span class="label">Quantity:</span>
@@ -50,7 +53,7 @@
           </div>
           
           <div class="ticket-actions">
-            <button (click)="deleteTicketType(ticketType.id)" class="btn btn-danger btn-sm">
+            <button (click)="deleteTicketType(ticketType.id); $event.stopPropagation()" class="btn btn-danger btn-sm">
               Delete
             </button>
           </div>

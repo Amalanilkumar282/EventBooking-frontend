@@ -1,12 +1,13 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TicketTypesService } from '../../../core/services/ticket-types.service';
 import { TicketTypeDto } from '../../../models';
 
 @Component({
   selector: 'app-ticket-types-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './ticket-types-list.component.html',
   styleUrl: './ticket-types-list.component.scss'
 })

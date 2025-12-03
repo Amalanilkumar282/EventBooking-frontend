@@ -84,6 +84,7 @@ The app will be available at `http://localhost:4200/`
 1. Clear browser localStorage
 2. Login again
 3. Check token expiration time
+**Note**: This project now uses sessionStorage for token storage. If you experience issues, clear `sessionStorage` in your browser's developer tools instead of `localStorage`.
 
 ## 🎨 Key Features
 

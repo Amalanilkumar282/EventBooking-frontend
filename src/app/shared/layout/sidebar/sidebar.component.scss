@@ -73,6 +73,39 @@
 
 @media (max-width: 768px) {
   .sidebar {
+    display: block;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: calc(100vh - 64px);
+    width: 220px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 9999;
+    border-right: 1px solid #e2e8f0;
+    background: white;
+    overflow-y: auto;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* When an ancestor (like <body>) has .sidebar-open, :host-context will match it */
+  :host-context(.sidebar-open) .sidebar,
+  :host-context(.sidebar-open) {
+    transform: translateX(0);
+  }
+
+  .mobile-overlay {
     display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+  }
+
+  :host-context(.sidebar-open) .mobile-overlay {
+    display: block;
   }
 }
