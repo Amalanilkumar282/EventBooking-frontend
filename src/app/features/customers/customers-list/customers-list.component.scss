@@ -6,6 +6,9 @@
 
 .page-header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   h1 {
     font-size: 2rem;
@@ -17,6 +20,18 @@
   p {
     color: #718096;
     font-size: 1rem;
+  }
+}
+
+.page-actions {
+  display: flex;
+  gap: 0.5rem;
+
+  a.btn, .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
   }
 }
 

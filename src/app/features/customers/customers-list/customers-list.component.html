@@ -4,6 +4,9 @@
       <h1>Customers</h1>
       <p>View all registered customers</p>
     </div>
+    <div class="page-actions">
+      <a routerLink="/customers/new" class="btn btn-primary">Create Customer</a>
+    </div>
   </div>
 
   @if (isLoading()) {
@@ -18,6 +21,7 @@
       </svg>
       <h3>No customers found</h3>
       <p>No registered customers yet</p>
+      <a routerLink="/customers/new" class="btn btn-primary">Create Customer</a>
     </div>
   } @else {
     <div class="table-container">

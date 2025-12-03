@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CustomersService } from '../../../core/services/customers.service';
-import { CustomerDto, UpdateCustomerDto } from '../../../models';
+import { CustomerDto, UpdateCustomerDto, CreateCustomerDto } from '../../../models';
 
 @Component({
   selector: 'app-customer-form',
@@ -41,7 +41,8 @@ export class CustomerFormComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-()]+$/)]]
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-()]+$/)]],
+      password: ['', [Validators.minLength(6)]]
     });
   }
 
@@ -72,17 +73,41 @@ export class CustomerFormComponent implements OnInit {
 
     this.isSubmitting.set(true);
     this.errorMessage.set('');
-
-    const formData: UpdateCustomerDto = this.customerForm.value;
     const id = this.customerId();
 
     if (id) {
-      this.customersService.updateCustomer(id, formData).subscribe({
+      const updateData: UpdateCustomerDto = this.customerForm.value;
+      this.customersService.updateCustomer(id, updateData).subscribe({
         next: () => {
           this.router.navigate(['/customers', id]);
         },
         error: (error) => {
           this.errorMessage.set(error.error?.title || 'Failed to update customer');
+          this.isSubmitting.set(false);
+        }
+      });
+    } else {
+      const password = this.customerForm.get('password')?.value;
+      if (!password || password.length < 6) {
+        this.errorMessage.set('Password is required and must be at least 6 characters');
+        this.isSubmitting.set(false);
+        return;
+      }
+
+      const createData: CreateCustomerDto = {
+        firstName: this.customerForm.value.firstName,
+        lastName: this.customerForm.value.lastName,
+        email: this.customerForm.value.email,
+        phoneNumber: this.customerForm.value.phoneNumber,
+        password
+      };
+
+      this.customersService.createCustomer(createData).subscribe({
+        next: (created) => {
+          this.router.navigate(['/customers', created.id]);
+        },
+        error: (error) => {
+          this.errorMessage.set(error.error?.title || 'Failed to create customer');
           this.isSubmitting.set(false);
         }
       });

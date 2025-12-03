@@ -10,6 +10,8 @@ import { EventDetailComponent } from './features/events/event-detail/event-detai
 import { CustomersListComponent } from './features/customers/customers-list/customers-list.component';
 import { CustomerDetailComponent } from './features/customers/customer-detail/customer-detail.component';
 import { CustomerFormComponent } from './features/customers/customer-form/customer-form.component';
+import { TicketTypeFormComponent } from './features/ticket-types/ticket-type-form/ticket-type-form.component';
+import { BookingFormComponent } from './features/bookings/booking-form/booking-form.component';
 import { BookingsListComponent } from './features/bookings/bookings-list/bookings-list.component';
 import { BookingDetailComponent } from './features/bookings/booking-detail/booking-detail.component';
 import { TicketTypesListComponent } from './features/ticket-types/ticket-types-list/ticket-types-list.component';
@@ -35,11 +37,16 @@ export const routes: Routes = [
       { path: 'events/:id/edit', component: EventFormComponent },
       { path: 'events/:id', component: EventDetailComponent },
       { path: 'customers', component: CustomersListComponent },
+      { path: 'customers/new', component: CustomerFormComponent },
       { path: 'customers/:id/edit', component: CustomerFormComponent },
       { path: 'customers/:id', component: CustomerDetailComponent },
       { path: 'bookings', component: BookingsListComponent },
+      { path: 'bookings/new', component: BookingFormComponent },
+      { path: 'bookings/:id/edit', component: BookingFormComponent },
       { path: 'bookings/:id', component: BookingDetailComponent },
       { path: 'ticket-types', component: TicketTypesListComponent },
+      { path: 'ticket-types/new', component: TicketTypeFormComponent },
+      { path: 'ticket-types/:id/edit', component: TicketTypeFormComponent },
       { path: 'ticket-types/:id', component: TicketTypeDetailComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
