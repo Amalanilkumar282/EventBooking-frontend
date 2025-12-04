@@ -20,6 +20,7 @@ export class EventsListComponent implements OnInit {
   currentPage = signal(1);
   pageSize = signal(20);
   totalItems = signal(0);
+  hasMore = signal(false);
   searchTerm = signal('');
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class EventsListComponent implements OnInit {
       next: (response) => {
         this.events.set(response);
         this.totalItems.set(response.length);
+        this.hasMore.set(response.length === this.pageSize());
         this.isLoading.set(false);
       },
       error: () => {
@@ -48,6 +50,15 @@ export class EventsListComponent implements OnInit {
     this.searchTerm.set(term);
     this.currentPage.set(1);
     this.loadEvents();
+  }
+
+  onPageSizeChange(value: string | number): void {
+    const size = typeof value === 'string' ? parseInt(value, 10) : value;
+    if (!isNaN(size) && size > 0) {
+      this.pageSize.set(size);
+      this.currentPage.set(1);
+      this.loadEvents();
+    }
   }
 
   onPageChange(page: number): void {

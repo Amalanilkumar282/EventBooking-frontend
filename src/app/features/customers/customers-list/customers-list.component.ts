@@ -19,6 +19,7 @@ export class CustomersListComponent implements OnInit {
   currentPage = signal(1);
   pageSize = signal(20);
   totalItems = signal(0);
+  hasMore = signal(false);
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -30,6 +31,7 @@ export class CustomersListComponent implements OnInit {
       next: (response) => {
         this.customers.set(response);
         this.totalItems.set(response.length);
+        this.hasMore.set(response.length === this.pageSize());
         this.isLoading.set(false);
       },
       error: () => {
@@ -41,6 +43,15 @@ export class CustomersListComponent implements OnInit {
   onPageChange(page: number): void {
     this.currentPage.set(page);
     this.loadCustomers();
+  }
+
+  onPageSizeChange(value: string | number): void {
+    const size = typeof value === 'string' ? parseInt(value, 10) : value;
+    if (!isNaN(size) && size > 0) {
+      this.pageSize.set(size);
+      this.currentPage.set(1);
+      this.loadCustomers();
+    }
   }
 
   get totalPages(): number {

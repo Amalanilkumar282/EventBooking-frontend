@@ -25,6 +25,25 @@
 
 .page-actions {
   display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-size-label {
+  font-size: 0.9rem;
+  color: #4a5568;
+
+  select {
+    margin: 0 0.5rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: white;
+  }
+}
+
+.page-actions {
+  display: flex;
   gap: 0.5rem;
 
   a.btn, .btn {
