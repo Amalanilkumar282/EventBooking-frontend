@@ -2,6 +2,9 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BookingsService } from '../../../core/services/bookings.service';
+import { EventsService } from '../../../core/services/events.service';
+import { CustomersService } from '../../../core/services/customers.service';
+import { TicketTypesService } from '../../../core/services/ticket-types.service';
 import { BookingDto } from '../../../models';
 
 @Component({
@@ -13,12 +16,18 @@ import { BookingDto } from '../../../models';
 })
 export class BookingDetailComponent implements OnInit {
   private readonly bookingsService = inject(BookingsService);
+  private readonly eventsService = inject(EventsService);
+  private readonly customersService = inject(CustomersService);
+  private readonly ticketTypesService = inject(TicketTypesService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   booking = signal<BookingDto | null>(null);
   isLoading = signal(true);
   bookingId = signal<string>('');
+  eventName = signal<string | null>(null);
+  customerName = signal<string | null>(null);
+  ticketTypeName = signal<string | null>(null);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -35,6 +44,7 @@ export class BookingDetailComponent implements OnInit {
     this.bookingsService.getBooking(id).subscribe({
       next: (response) => {
         this.booking.set(response);
+        this.loadRelatedNames(response);
         this.isLoading.set(false);
       },
       error: () => {
@@ -43,6 +53,32 @@ export class BookingDetailComponent implements OnInit {
         this.router.navigate(['/bookings']);
       }
     });
+  }
+
+  private loadRelatedNames(b: BookingDto): void {
+    // Load event name
+    if (b.eventId) {
+      this.eventsService.getEvent(b.eventId).subscribe({
+        next: (evt) => this.eventName.set(evt.name),
+        error: () => this.eventName.set(null)
+      });
+    }
+
+    // Load customer name
+    if (b.customerId) {
+      this.customersService.getCustomer(b.customerId).subscribe({
+        next: (cust) => this.customerName.set(`${cust.firstName} ${cust.lastName}`),
+        error: () => this.customerName.set(null)
+      });
+    }
+
+    // Load ticket type name
+    if (b.ticketTypeId) {
+      this.ticketTypesService.getTicketType(b.ticketTypeId).subscribe({
+        next: (tt) => this.ticketTypeName.set(tt.name),
+        error: () => this.ticketTypeName.set(null)
+      });
+    }
   }
 
   deleteBooking(): void {

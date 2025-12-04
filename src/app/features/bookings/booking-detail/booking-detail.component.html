@@ -87,16 +87,28 @@
             <span class="metadata-value">{{ book.id }}</span>
           </div>
           <div class="metadata-item">
-            <span class="metadata-label">Event ID</span>
-            <span class="metadata-value">{{ book.eventId }}</span>
+            <span class="metadata-label">Event</span>
+            <span class="metadata-value">
+              <a [routerLink]="['/events', book.eventId]">
+                {{ eventName() || book.eventId }}
+              </a>
+            </span>
           </div>
           <div class="metadata-item">
-            <span class="metadata-label">Customer ID</span>
-            <span class="metadata-value">{{ book.customerId }}</span>
+            <span class="metadata-label">Customer</span>
+            <span class="metadata-value">
+              <a [routerLink]="['/customers', book.customerId]">
+                {{ customerName() || book.customerId }}
+              </a>
+            </span>
           </div>
           <div class="metadata-item">
-            <span class="metadata-label">Ticket Type ID</span>
-            <span class="metadata-value">{{ book.ticketTypeId }}</span>
+            <span class="metadata-label">Ticket Type</span>
+            <span class="metadata-value">
+              <a [routerLink]="['/ticket-types', book.ticketTypeId]">
+                {{ ticketTypeName() || book.ticketTypeId }}
+              </a>
+            </span>
           </div>
         </div>
       </div>
