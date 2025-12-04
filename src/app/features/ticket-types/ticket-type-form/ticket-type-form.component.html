@@ -6,46 +6,52 @@
     </div>
   } @else {
     <div class="form-header">
-      <button class="back-button" routerLink="/ticket-types">
-        Back to Ticket Types
-      </button>
-      <h1>{{ ticketTypeId() ? 'Edit Ticket Type' : 'Create Ticket Type' }}</h1>
+      <div>
+        <h1>{{ ticketTypeId() ? 'Edit Ticket Type' : 'Create Ticket Type' }}</h1>
+        <p>{{ ticketTypeId() ? 'Update ticket type details' : 'Create a new ticket type for an event' }}</p>
+      </div>
+      <a routerLink="/ticket-types" class="btn btn-secondary">Cancel</a>
     </div>
 
-    @if (errorMessage()) {
-      <div class="error-message">{{ errorMessage() }}</div>
-    }
-
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="ticket-type-form">
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="eventId">Event *</label>
-          <select id="eventId" formControlName="eventId">
-            <option value="">Select an event</option>
-            @for (e of events(); track e.id) {
-              <option [value]="e.id">{{ e.name }}</option>
-            }
-          </select>
+      @if (errorMessage()) {
+        <div class="alert alert-error">{{ errorMessage() }}</div>
+      }
+
+      <div class="form-card">
+        <h2>Ticket Type Details</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventId">Event *</label>
+            <select id="eventId" formControlName="eventId">
+              <option value="">Select an event</option>
+              @for (e of events(); track e.id) {
+                <option [value]="e.id">{{ e.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input id="name" type="text" formControlName="name" />
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="name">Name *</label>
-          <input id="name" type="text" formControlName="name" />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="price">Price *</label>
+            <input id="price" type="number" formControlName="price" />
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Quantity *</label>
+            <input id="quantity" type="number" formControlName="quantity" />
+          </div>
         </div>
 
         <div class="form-group">
           <label for="description">Description</label>
           <textarea id="description" formControlName="description"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="price">Price *</label>
-          <input id="price" type="number" formControlName="price" />
-        </div>
-
-        <div class="form-group">
-          <label for="quantity">Quantity *</label>
-          <input id="quantity" type="number" formControlName="quantity" />
         </div>
 
         @if (ticketTypeId()) {
@@ -58,7 +64,7 @@
 
       <div class="form-actions">
         <button type="button" class="btn btn-secondary" routerLink="/ticket-types">Cancel</button>
-        <button type="submit" class="btn btn-primary">{{ ticketTypeId() ? 'Update' : 'Create' }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading()">@if (isLoading()) { <span class="spinner"></span> } @else { {{ ticketTypeId() ? 'Update' : 'Create' }} }</button>
       </div>
     </form>
   }

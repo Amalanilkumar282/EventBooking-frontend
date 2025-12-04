@@ -6,55 +6,67 @@
     </div>
   } @else {
     <div class="form-header">
-      <button class="back-button" routerLink="/bookings">Back to Bookings</button>
-      <h1>{{ bookingId() ? 'Edit Booking' : 'Create Booking' }}</h1>
+      <div>
+        <h1>{{ bookingId() ? 'Edit Booking' : 'Create Booking' }}</h1>
+        <p>{{ bookingId() ? 'Update booking details' : 'Create a new booking for an event' }}</p>
+      </div>
+      <a routerLink="/bookings" class="btn btn-secondary">Cancel</a>
     </div>
 
-    @if (errorMessage()) {
-      <div class="error-message">{{ errorMessage() }}</div>
-    }
-
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="booking-form">
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="eventId">Event *</label>
-          <select id="eventId" formControlName="eventId">
-            <option value="">Select an event</option>
-            @for (e of events(); track e.id) {
-              <option [value]="e.id">{{ e.name }}</option>
-            }
-          </select>
-        </div>
+      @if (errorMessage()) {
+        <div class="alert alert-error">{{ errorMessage() }}</div>
+      }
 
-        <div class="form-group">
-          <label for="customerId">Customer *</label>
-          <select id="customerId" formControlName="customerId">
-            <option value="">Select a customer</option>
-            @for (c of customers(); track c.id) {
-              <option [value]="c.id">{{ c.firstName }} {{ c.lastName }}</option>
-            }
-          </select>
-        </div>
+      <div class="form-card">
+        <h2>Booking Details</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventId">Event *</label>
+            <select id="eventId" formControlName="eventId">
+              <option value="">Select an event</option>
+              @for (e of events(); track e.id) {
+                <option [value]="e.id">{{ e.name }}</option>
+              }
+            </select>
+            
+          </div>
 
-        <div class="form-group">
-          <label for="ticketTypeId">Ticket Type *</label>
-          <select id="ticketTypeId" formControlName="ticketTypeId">
-            <option value="">Select a ticket type</option>
-            @for (t of ticketTypes(); track t.id) {
-              <option [value]="t.id">{{ t.name }} — ₹{{ t.price }}</option>
-            }
-          </select>
+          <div class="form-group">
+            <label for="customerId">Customer *</label>
+            <select id="customerId" formControlName="customerId">
+              <option value="">Select a customer</option>
+              @for (c of customers(); track c.id) {
+                <option [value]="c.id">{{ c.firstName }} {{ c.lastName }}</option>
+              }
+            </select>
+          </div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="seats">Seats *</label>
-          <input id="seats" type="number" formControlName="seats" min="1" />
+      <div class="form-card">
+        <h2>Ticket</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ticketTypeId">Ticket Type *</label>
+            <select id="ticketTypeId" formControlName="ticketTypeId">
+              <option value="">Select a ticket type</option>
+              @for (t of ticketTypes(); track t.id) {
+                <option [value]="t.id">{{ t.name }} — ₹{{ t.price }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="seats">Seats *</label>
+            <input id="seats" type="number" formControlName="seats" min="1" />
+          </div>
         </div>
       </div>
 
       <div class="form-actions">
         <button type="button" class="btn btn-secondary" routerLink="/bookings">Cancel</button>
-        <button type="submit" class="btn btn-primary">{{ bookingId() ? 'Update' : 'Create' }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading()">@if (isLoading()) { <span class="spinner"></span> } @else { {{ bookingId() ? 'Update' : 'Create' }} }</button>
       </div>
     </form>
   }
