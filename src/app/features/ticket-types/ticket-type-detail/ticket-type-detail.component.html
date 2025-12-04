@@ -117,8 +117,12 @@
             <span class="metadata-value">{{ ticket.id }}</span>
           </div>
           <div class="metadata-item">
-            <span class="metadata-label">Event ID</span>
-            <span class="metadata-value">{{ ticket.eventId }}</span>
+            <span class="metadata-label">Event</span>
+            <span class="metadata-value">
+              <a [routerLink]="['/events', ticket.eventId]">
+                {{ eventName() || ticket.eventId }}
+              </a>
+            </span>
           </div>
         </div>
       </div>
